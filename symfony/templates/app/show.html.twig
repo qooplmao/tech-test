@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            Order #{{ order.id }}
+
+            <div class="float-right">
+                Created: {{ order.createdAt|date('Y-m-d') }}
+            </div>
+        </div>
+        <div class="card-body text-center">
+            <div class="row">
+                <div class="col-sm">
+                    <strong>Total</strong>
+                    &pound;{{ (order.total / 100)|number_format(2) }}
+                </div>
+                <div class="col-sm">
+                    <strong>Mean</strong>
+                    &pound;{{ (order.meanPrice / 100)|number_format(2) }}
+                </div>
+                <div class="col-sm">
+                    <strong>Median</strong>
+                    &pound;{{ (order.medianPrice / 100)|number_format(2) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row mt-5">
+            <table class="table col-8">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Postage</th>
+                        <th>Method</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for orderItem in order.items %}
+                        <tr>
+                            <td>{{ orderItem.name }}</td>
+                            <td>&pound;{{ (orderItem.price / 100)|number_format(2) }}</td>
+                            <td>
+                                {% if orderItem.postage %}
+                                    &pound;{{ (orderItem.postage / 100)|number_format(2) }}
+                                {% else %}
+                                    None
+                                {% endif %}
+                            </td>
+                            <td>{{ orderItem.method ? orderItem.method|title : 'FREE' }}</td>
+                            <td>
+                                <form action="{{ path('order_items.delete', {'orderId': order.id, 'id': orderItem.id }) }}" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <button class="btn btn-outline-danger" type="submit">
+                                        x
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">
+                                No items found.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="offset-1 col-3">
+                {% if form is defined %}
+                    {{ form_start(form, {'attr': {'autocomplete': 'off'}}) }}
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.price) }}
+                        {{ form_row(form.postage) }}
+                        {{ form_row(form.method) }}
+
+                        {{ form_widget(form.submit, {'attr': {'class': 'btn-block btn-outline-primary'}}) }}
+
+                        <a class="btn btn-block btn-outline-danger" href="{{ path('orders.show', {'id': order.id}) }}">
+                            Cancel
+                        </a>
+                    {{ form_end(form) }}
+                {% else %}
+                    <div class="text-right">
+                        <a class="btn btn-outline-primary btn-block" href="{{ path('order_items.create', {'orderId': order.id }) }}">
+                            Add order item
+                        </a>
+
+                        <form class="mt-4" action="{{ path('orders.delete', {'id': order.id }) }}" method="POST">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <button class="btn btn-outline-danger btn-block" type="submit">
+                                Delete Order
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock body %}

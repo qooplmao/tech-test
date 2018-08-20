@@ -1,0 +1,46 @@
+orders.index:
+    path: /
+    methods: [GET]
+    controller: App\Controller\OrderController::index
+
+orders.create:
+    path: /
+    methods: [POST]
+    controller: App\Controller\OrderController::create
+    requirements:
+        id: \d+
+
+orders.show:
+    path: /{id}
+    methods: [GET]
+    controller: App\Controller\OrderController::show
+    requirements:
+        id: \d+
+
+orders.delete:
+    path: /{id}
+    methods: [DELETE]
+    controller: App\Controller\OrderController::delete
+    requirements:
+        id: \d+
+
+
+order_items.create:
+    path: /{orderId}/order-items
+    methods: [GET,POST]
+    controller: App\Controller\OrderItemController::create
+    requirements:
+        orderId: \d+
+
+order_items.delete:
+    path: /{orderId}/order-items/{id}
+    methods: [DELETE]
+    controller: App\Controller\OrderItemController::delete
+    requirements:
+        orderId: \d+
+        id: \d+
+
+
+app.init:
+    path: /app-init
+    controller: App\Controller\AppController::init

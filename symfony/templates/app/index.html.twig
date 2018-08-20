@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if orders|length > 0 %}
+        <nav>
+            <form class="float-right ml-5" action="{{ path('orders.create') }}" method="POST">
+                <button class="btn btn-outline-primary" type="submit">
+                    Create New Order
+                </button>
+            </form>
+            <ul class="pagination float-right">
+                <li class="page-item {% if false == orders.hasPreviousPage %}disabled{% endif %}">
+                    {% if orders.hasPreviousPage %}
+                        <a class="page-link" href="{{ path('orders.index', {'page': orders.previousPage }) }}">
+                            Previous
+                        </a>
+                    {% else %}
+                        <a class="page-link" href="#">
+                            Previous
+                        </a>
+                    {% endif %}
+                </li>
+                <li class="page-item {% if false == orders.hasNextPage %}disabled{% endif %}">
+                    {% if orders.hasNextPage %}
+                        <a class="page-link" href="{{ path('orders.index', {'page': orders.nextPage }) }}">
+                            Next
+                        </a>
+                    {% else %}
+                        <a class="page-link" href="#">
+                            Next
+                        </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order Id</th>
+                    <th>Created At</th>
+                    <th>Number of Items</th>
+                    <th>Total</th>
+                    <th>Mean Price</th>
+                    <th>Median Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('orders.show', {'id': order.id }) }}">
+                                {{ order.id }}
+                            </a>
+                        </td>
+                        <td>{{ order.createdAt|date('Y-m-d') }}</td>
+                        <td>{{ order.items|length }}</td>
+                        <td>&pound;{{ (order.total / 100)|number_format(2) }}</td>
+                        <td>&pound;{{ (order.meanPrice / 100)|number_format(2) }}</td>
+                        <td>&pound;{{ (order.medianPrice / 100)|number_format(2) }}</td>
+                        <td>
+                            <form action="{{ path('orders.delete', {'id': order.id }) }}" method="POST">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                <button class="btn btn-outline-danger" type="submit">
+                                    x
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info">
+            Database contains no orders. <a href="{{ path('app.init') }}">Initialise app</a>.
+        </div>
+    {% endif %}
+{% endblock body %}

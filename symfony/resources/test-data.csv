@@ -1,0 +1,112 @@
+id,name,created_at,price," postage",method
+20041,Chain,20180816,14,5.5,accessory
+20041,"Lock Lever",20180816,14.5,5.5,accessory
+20037,"Commercial Service",20180810,102,0,service
+20037,"Atom Saddle clamp",20180810,8,5.5,accessory
+20037,Chain,20180810,14,5.5,accessory
+20037,Bolts,20180810,0.2,5.5,accessory
+20037,"Bottom Bracket",20180810,30,5.5,accessory
+20023,"Atom Charger",20180724,14,5.5,accessory
+20023,Atom,20180724,1499,60,boxed
+20019,Service,20180723,149,0,service
+20019,"Saddle Slider",20180723,18,-,-
+20019,"Atom Saddle clamp",20180723,8,-,-
+20006,"Model B Monitor",20180720,475,-,-
+20006,"Lock Lever",20180720,14.5,-,-
+19976,"Saddle Clamp and Slider",20180628,24,5.5,accessory
+19976,"Model B Monitor",20180628,475,5.5,accessory
+19967,Atom,20180607,20476.43,360,boxed
+19874,"Adjuster 1 to 7 Sticker",20180601,2,-,-
+19856,"Lock Lever",20180531,14.5,-,-
+19856,"Adjustment Lever",20180531,6,-,-
+19856,"Monitor Housing Rear",20180531,10,-,-
+19849,"Extra Long Seat Stem",20180531,70,-,-
+19849,"Saddle Clamp and Slider",20180531,24,-,-
+19849,"Adjustment Lever",20180531,6,-,-
+19849,"Dimple Plate",20180531,4.5,-,-
+19822,"Commercial Service",20180530,280.8,-,-
+19822,"Model B Bluetooth Upgrade",20180530,75,-,-
+19809,"Comfort Saddle",20180529,30,-,-
+19809,"Wellgo E148 Pedals",20180529,38,-,-
+19809,Atom,20180529,1499,60,boxed
+19809,"Tri Pads",20180529,25.5,-,-
+19779,Atom,20180527,1499,60,boxed
+19779,"Wattbike Dual Mode Heart Rate Strap",20180527,40,-,-
+19779,"Wellgo E148 Pedals",20180527,38,-,-
+19696,"Data Cable",20180522,28,-,-
+19696,"Toe Cage & Cleats",20180522,10,-,-
+19663,"Wellgo E148 Pedals",20180520,38,-,-
+19663,"Garmin Heart Rate Transmitter",20180520,45,-,-
+19603,"Monitor Housing Rear",20180516,10,-,-
+19603,"Tri Pads",20180516,25.5,-,-
+19528,Crank,20180511,20,-,-
+19526,"Wellgo E148 Pedals",20180511,38,-,-
+19521,"Racing Saddle",20180511,30,-,-
+19521,"Tri Pads",20180511,25.5,-,-
+19521,"Saddle Clamp and Slider",20180511,24,-,-
+19521,"Model B Monitor Charger",20180511,10.5,-,-
+19521,"Toe Straps (pair)",20180511,6,-,-
+19521,"Lock Lever",20180511,14.5,-,-
+19439,"Water Bottle Cage",20180504,3.5,-,-
+19383,"Commercial Service",20180502,518.4,-,-
+19383,"Racing Saddle",20180502,30,-,-
+19360,Service,20180501,149,-,-
+19360,"Floor Mat",20180501,35,-,-
+19359,Service,20180501,149,-,-
+19359,Service,20180501,70.5,-,-
+19258,"Lock Lever Handle",20180426,3,-,-
+19258,"Water Bottle Cage",20180426,3.5,-,-
+19254,"Men's Wattbike Bib Shorts",20180426,84.98,-,-
+19254,"Women's Wattbike Bib Shorts",20180426,79.99,-,-
+19235,"Tri Pads",20180425,25.5,-,-
+19235,"Model B Bluetooth Upgrade",20180425,69.5,-,-
+19228,"Men's Wattbike Bib Shorts",20180424,84.98,-,-
+19228,"Comfort Saddle",20180424,30,-,-
+19224,"Women's Short Sleeved Wattbike Jersey",20180424,49.99,-,-
+19224,"Women's Wattbike Bib Shorts",20180424,79.99,-,-
+19224,"Wattbike Dual Mode Heart Rate Strap",20180424,40,-,-
+19219,"Wattbike Purist Water Bottle",20180424,10,-,-
+19219,"Men's Short Sleeved Wattbike Jersey",20180424,49.99,-,-
+19189,"Lock Lever",20180423,14.5,-,-
+19189,"Model B Monitor Charger",20180423,10.5,-,-
+19189,"Toe Straps (pair)",20180423,6,-,-
+19189,"Adjustment Lever",20180423,6,-,-
+19127,"Strain Gauge",20180419,210,-,-
+19127,"Data Cable",20180419,28,-,-
+19045,"Wellgo E148 Pedals",20180416,38,-,-
+19028,"Wellgo E148 Pedals",20180415,38,-,-
+19014,Atom,20180415,1499,60,boxed
+19014,"Comfort Saddle",20180415,30,-,-
+19014,"Extra Long Seat Stem",20180415,70,-,-
+19014,"Extra Long Handlebar Stem",20180415,70,-,-
+19014,"Lock Lever",20180415,14.5,-,-
+19004,Atom,20180414,1499,110,assembled
+19004,"Wattbike Purist Water Bottle",20180414,10,-,-
+19004,"Wattbike Dual Mode Heart Rate Strap",20180414,40,-,-
+19004,"Toe Straps (pair)",20180414,6,-,-
+18996,"Comfort Saddle",20180413,30,-,-
+18996,"Wellgo E148 Pedals",20180413,38,-,-
+18986,"Bearing Seat ",20180413,1,-,-
+18977,"Model B Bluetooth Upgrade",20180413,69.5,-,-
+18967,"Toe Cage & Cleats",20180412,10,-,-
+18967,"Toe Straps (pair)",20180412,6,-,-
+18940,"Men's Wattbike Bib Shorts",20180411,84.98,-,-
+18940,"Garmin Heart Rate Transmitter",20180411,45,-,-
+18938,Atom,20180411,1499,60,boxed
+18938,Service,20180411,149,-,-
+18938,"Floor Mat",20180411,35,-,-
+18925,"Model B Bluetooth Upgrade",20180411,69.5,-,-
+18853,"Floor Mat",20180408,35,-,-
+18853,"Suunto Dual Chest Belt",20180408,56,-,-
+18853,"ANT+ Dongle",20180408,35,-,-
+18838,Atom,20180407,1499,60,boxed
+18838,"Garmin Heart Rate Transmitter",20180407,45,-,-
+18838,"Men's Wattbike Bib Shorts",20180407,84.98,-,-
+18838,"Tri Pads",20180407,25.5,-,-
+18820,Atom,20180406,1499,60,boxed
+18820,"Tri Pads",20180406,25.5,-,-
+18799,Atom,20180405,1499,60,boxed
+18799,"Men's Short Sleeved Wattbike Jersey",20180405,49.99,-,-
+18799,"Men's Wattbike Bib Shorts",20180405,84.98,-,-
+18797,Service,20180405,70.5,-,-
+18797,"Data Cable",20180405,28,-,-
