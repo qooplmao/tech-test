@@ -6,9 +6,6 @@ use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\OrderItemRepository;
 use App\Entity\OrderRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\GoneHttpException;
@@ -17,31 +14,21 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class AppController
 {
     /**
-     * @var ManagerRegistry
-     */
-    private $managerRegistry;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(
-        ManagerRegistry $managerRegistry
-    ) {
-        $this->managerRegistry = $managerRegistry;
-    }
-
-    /**
+     * @param OrderRepository $orderRepository
+     * @param OrderItemRepository $orderItemRepository
      * @param UrlGeneratorInterface $router
      * @param string $csvFile
      * @return Response
      */
     public function init(
+        OrderRepository $orderRepository,
+        OrderItemRepository $orderItemRepository,
         UrlGeneratorInterface $router,
         string $csvFile
     ) : Response {
-        // Clear database
-        $this->getOrderItemRepository()->truncate();
-        $this->getOrderRepository()->truncate();
+        // Clear database (order matters due to foreign key checks)
+        $orderItemRepository->truncate();
+        $orderRepository->truncate();
 
         if (!file_exists($csvFile)) {
             throw new GoneHttpException(sprintf(
@@ -75,12 +62,12 @@ class AppController
             }
 
             // Get order or create new
-            if (null === $order = $this->getOrderRepository()->find($orderId)) {
+            if (null === $order = $orderRepository->find($orderId)) {
                 $order = Order::create(
                     (int)$orderId,
                     \DateTimeImmutable::createFromFormat('Ymd', $createdAt)->setTime(0, 0, 0)
                 );
-                $this->getOrderRepository()->save($order);
+                $orderRepository->save($order);
             }
 
             // Convert price and postage to integer rather than deal with floats
@@ -97,34 +84,9 @@ class AppController
                 $postage,
                 $method
             );
-            $this->getOrderItemRepository()->save($orderItem);
+            $orderItemRepository->save($orderItem);
         }
 
-        return new RedirectResponse($router->generate('index'));
-    }
-
-    /**
-     * @param string $className
-     * @return OrderRepository|OrderItemRepository|ObjectRepository
-     */
-    private function getRepository(string $className) : EntityRepository
-    {
-        return $this->managerRegistry->getManagerForClass($className)->getRepository($className);
-    }
-
-    /**
-     * @return OrderRepository
-     */
-    private function getOrderRepository() : OrderRepository
-    {
-        return $this->getRepository(Order::class);
-    }
-
-    /**
-     * @return OrderItemRepository
-     */
-    private function getOrderItemRepository() : OrderItemRepository
-    {
-        return $this->getRepository(OrderItem::class);
+        return new RedirectResponse($router->generate('orders.index'));
     }
 }

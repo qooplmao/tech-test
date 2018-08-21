@@ -23,20 +23,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class OrderItemController
 {
     /**
-     * @var ManagerRegistry
-     */
-    private $managerRegistry;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(
-        ManagerRegistry $managerRegistry
-    ) {
-        $this->managerRegistry = $managerRegistry;
-    }
-
-    /**
+     * @param OrderRepository $orderRepository
+     * @param OrderItemRepository $orderItemRepository
      * @param FormFactoryInterface $formFactory
      * @param UrlGeneratorInterface $router
      * @param EngineInterface $templating
@@ -45,6 +33,8 @@ class OrderItemController
      * @return Response
      */
     public function create(
+        OrderRepository $orderRepository,
+        OrderItemRepository $orderItemRepository,
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $router,
         EngineInterface $templating,
@@ -52,7 +42,7 @@ class OrderItemController
         int $orderId
     ) : Response {
         /** @var Order $order */
-        if (null === $order = $this->getOrderRepository()->find($orderId)) {
+        if (null === $order = $orderRepository->find($orderId)) {
             throw new NotFoundHttpException(sprintf(
                 'Order with id "%s" can not be found',
                 $orderId
@@ -65,7 +55,7 @@ class OrderItemController
         $form = $formFactory->createBuilder(OrderItemType::class, $orderItem)->getForm();
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
-            $this->getOrderItemRepository()->save($orderItem);
+            $orderItemRepository->save($orderItem);
 
             return new RedirectResponse($router->generate('orders.show', ['id' => $orderId]));
         }
@@ -77,18 +67,20 @@ class OrderItemController
     }
 
     /**
+     * @param OrderItemRepository $orderItemRepository
      * @param UrlGeneratorInterface $router
      * @param int $id
      * @param int $orderId
      * @return Response
      */
     public function delete(
+        OrderItemRepository $orderItemRepository,
         UrlGeneratorInterface $router,
         int $id,
         int $orderId
     ) : Response {
         /** @var OrderItem $orderItem */
-        if (null === $orderItem = $this->getOrderItemRepository()->find($id)) {
+        if (null === $orderItem = $orderItemRepository->find($id)) {
             throw new NotFoundHttpException(sprintf(
                 'Order with id "%s" can not be found',
                 $id
@@ -99,33 +91,8 @@ class OrderItemController
             throw new BadRequestHttpException('Order id in request does not match order connected to order item');
         }
 
-        $this->getOrderItemRepository()->delete($orderItem);
+        $orderItemRepository->delete($orderItem);
 
         return new RedirectResponse($router->generate('orders.show', ['id' => $orderId]));
-    }
-
-    /**
-     * @param string $className
-     * @return OrderRepository|OrderItemRepository|ObjectRepository
-     */
-    private function getRepository(string $className) : EntityRepository
-    {
-        return $this->managerRegistry->getManagerForClass($className)->getRepository($className);
-    }
-
-    /**
-     * @return OrderRepository
-     */
-    private function getOrderRepository() : OrderRepository
-    {
-        return $this->getRepository(Order::class);
-    }
-
-    /**
-     * @return OrderItemRepository
-     */
-    private function getOrderItemRepository() : OrderItemRepository
-    {
-        return $this->getRepository(OrderItem::class);
     }
 }

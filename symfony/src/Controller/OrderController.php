@@ -3,62 +3,47 @@
 namespace App\Controller;
 
 use App\Entity\Order;
-use App\Entity\OrderItem;
 use App\Entity\OrderItemRepository;
 use App\Entity\OrderRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class OrderController
 {
     /**
-     * @var ManagerRegistry
-     */
-    private $managerRegistry;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(
-        ManagerRegistry $managerRegistry
-    ) {
-        $this->managerRegistry = $managerRegistry;
-    }
-
-    /**
+     * @param OrderRepository $orderRepository
      * @param EngineInterface $templating
      * @param Request $request
      * @return Response
      */
     public function index(
+        OrderRepository $orderRepository,
         EngineInterface $templating,
         Request $request
     ) : Response {
         $page = (int) $request->query->get('page', 1);
 
         return $templating->renderResponse('app/index.html.twig', [
-            'orders'    => $this->getOrderRepository()->createFilterPaginator($page),
+            'orders'    => $orderRepository->createFilterPaginator($page),
         ]);
     }
 
     /**
+     * @param OrderRepository $orderRepository
      * @param EngineInterface $templating
      * @param int $id
      * @return Response
      */
     public function show(
+        OrderRepository $orderRepository,
         EngineInterface $templating,
         int $id
     ) : Response {
-        if (null === $order = $this->getOrderRepository()->find($id)) {
+        if (null === $order = $orderRepository->find($id)) {
             throw new NotFoundHttpException(sprintf(
                 'Order with id "%s" can not be found',
                 $id
@@ -71,30 +56,35 @@ class OrderController
     }
 
     /**
+     * @param OrderRepository $orderRepository
      * @param UrlGeneratorInterface $router
      * @return Response
-     * @throws \Exception
      */
     public function create(
+        OrderRepository $orderRepository,
         UrlGeneratorInterface $router
     ) : Response {
-        $order = $this->getOrderRepository()->create();
-        $this->getOrderRepository()->save($order);
+        $order = $orderRepository->create();
+        $orderRepository->save($order);
 
         return new RedirectResponse($router->generate('orders.show', ['id' => $order->getId()]));
     }
 
     /**
+     * @param OrderRepository $orderRepository
+     * @param OrderItemRepository $orderItemRepository
      * @param UrlGeneratorInterface $router
      * @param int $id
      * @return RedirectResponse
      */
     public function delete(
+        OrderRepository $orderRepository,
+        OrderItemRepository $orderItemRepository,
         UrlGeneratorInterface $router,
         int $id
     ) : RedirectResponse {
         /** @var Order $order */
-        if (null === $order = $this->getOrderRepository()->find($id)) {
+        if (null === $order = $orderRepository->find($id)) {
             throw new NotFoundHttpException(sprintf(
                 'Order with id "%s" can not be found',
                 $id
@@ -102,36 +92,11 @@ class OrderController
         }
 
         foreach ($order->getItems() as $orderItem) {
-            $this->getOrderItemRepository()->delete($orderItem);
+            $orderItemRepository->delete($orderItem);
         }
 
-        $this->getOrderRepository()->delete($order);
+        $orderRepository->delete($order);
 
         return new RedirectResponse($router->generate('orders.index'));
-    }
-
-    /**
-     * @param string $className
-     * @return OrderRepository|OrderItemRepository|ObjectRepository
-     */
-    private function getRepository(string $className) : EntityRepository
-    {
-        return $this->managerRegistry->getManagerForClass($className)->getRepository($className);
-    }
-
-    /**
-     * @return OrderRepository
-     */
-    private function getOrderRepository() : OrderRepository
-    {
-        return $this->getRepository(Order::class);
-    }
-
-    /**
-     * @return OrderItemRepository
-     */
-    private function getOrderItemRepository() : OrderItemRepository
-    {
-        return $this->getRepository(OrderItem::class);
     }
 }
