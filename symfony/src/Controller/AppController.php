@@ -19,6 +19,8 @@ class AppController
      * @param UrlGeneratorInterface $router
      * @param string $csvFile
      * @return Response
+     *
+     * @TODO: I would normally move this whole process into an "import" service rather than have fat controllers
      */
     public function init(
         OrderRepository $orderRepository,
